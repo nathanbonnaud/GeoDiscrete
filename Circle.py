@@ -4,18 +4,19 @@ import sys
 
 
 #fonction qui dessine le cercle
-def drawCircle(image,circle_center,circle_radius):
-    w1 = (circle_radius - 1/2)*(circle_radius-1/2);
-    w2 = (circle_radius + 1/2)*(circle_radius+1/2);
+def draw_circle(image,circle_center,circle_radius,width):
+    width/=2
+    w1 = (circle_radius)*(circle_radius)
+    w2 = (circle_radius + width)*(circle_radius+width)
 
     for y in range (image.height):
         for x in range (image.width):
-            pos_x = circle_center[0] - x
-            pos_y = circle_center[1] - y
+            pos_x =  x - circle_center[0]
+            pos_y = y -  circle_center[1]
             dist =pos_x*pos_x + pos_y*pos_y
 
             if w1 <= dist < w2 :
-                image.putpixel((y,x),(255,255,255))
+                image.putpixel((x,y),(255,255,255))
     return
 
 
@@ -38,7 +39,12 @@ def main():
     #rayon du cercle
     circle_radius = int(input("rayon : "))
 
-    drawCircle(image,circle_center,circle_radius)
+    
+    print("Epaisseur du bord du cercle ?")
+    #epaisseur du bord du cercle
+    width =  int(input("Epaisseur : "))
+
+    draw_circle(image,circle_center,circle_radius,width)
 
     #affichage de l'image avec les pixels changés
     image.show()
