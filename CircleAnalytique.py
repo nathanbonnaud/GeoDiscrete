@@ -12,9 +12,8 @@ def between_borders(distance,w1,w2):
 
 def draw_circle(image, circle_center,circle_radius,width):
 
-
     for i in range(1,width+1):
-        x= 0 + circle_radius -1 +i
+        x= 0 + circle_radius -1 + i
         y= 0
         w1 = (circle_radius-1+i) *(circle_radius-1+i)
         w2 = (circle_radius+i) *(circle_radius+i)
@@ -37,19 +36,12 @@ def draw_circle(image, circle_center,circle_radius,width):
                 y+=1
 
             image.putpixel((x+circle_center[0],y+circle_center[1]),(255,255,255))
-
             image.putpixel((-x+circle_center[0],y+circle_center[1]),(255,255,255))
-
             image.putpixel((-x+circle_center[0],-y+circle_center[1]),(255,255,255))
-
             image.putpixel((x+circle_center[0],-y+circle_center[1]),(255,255,255))
-
             image.putpixel((y+circle_center[1],x+circle_center[0]),(255,255,255))
-
             image.putpixel((-y+circle_center[1],x+circle_center[0]),(255,255,255))
-
             image.putpixel((-y+circle_center[1],-x+circle_center[0]),(255,255,255))
-
             image.putpixel((y+circle_center[1],-x+circle_center[0]),(255,255,255))
             
     return
@@ -75,7 +67,7 @@ def main():
     #rayon du cercle
     circle_radius = int(input("rayon : "))
 
-    print("Rayon du cercle ?")
+    print("Epaisseur du cercle ?")
     #rayon du cercle
     width = int(input("Epaisseur : "))
 
