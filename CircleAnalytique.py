@@ -4,7 +4,7 @@ import math
 
 def between_borders(distance,w1,w2):
 
-    if(w1 <= distance <w2):
+    if(w1 <= distance and distance < w2):
         return True
     return False
 
@@ -12,36 +12,49 @@ def between_borders(distance,w1,w2):
 
 def draw_circle(image, circle_center,circle_radius,width):
 
-    x= circle_center[0] + circle_radius
-    y= circle_center[1]
-    w1 = (circle_radius-1) *(circle_radius-1)
-    w2 = (circle_radius+1) *(circle_radius+1)
-    while ( x>y):
-        distance_o = (x-1-circle_center[0]) * (x-1-circle_center[0]) + (y-circle_center[1])* (y-circle_center[1])
-        distance_n = (x-circle_center[0]) * (x-circle_center[0]) + (y+1-circle_center[1])*(y+1-circle_center[1])
-        distance_no = (x-1-circle_center[0]) * (x-1-circle_center[0]) + (y+1-circle_center[1])*(y+1-circle_center[1])
-        if between_borders(distance_o,w1,w2) and not between_borders(distance_n,w1,w2):
-            x-=1
-        elif between_borders(distance_n,w1,w2) and not between_borders(distance_o,w1,w2):
-            y+=1       
-        else:
-            x-=1
-            y+=1
-        
-        image.putpixel((x,y),(255,255,255))
-        image.putpixel((-x,y),(255,255,255))
-        image.putpixel((-x,-y),(255,255,255))
-        image.putpixel((x,-y),(255,255,255))
-        image.putpixel((y,x),(255,255,255))
-        image.putpixel((-y,x),(255,255,255))
-        image.putpixel((-y,-x),(255,255,255))
-        image.putpixel((y,-x),(255,255,255))
 
+    for i in range(1,width+1):
+        x= 0 + circle_radius -1 +i
+        y= 0
+        w1 = (circle_radius-1+i) *(circle_radius-1+i)
+        w2 = (circle_radius+i) *(circle_radius+i)
+        
+        image.putpixel((x+circle_center[0],y+circle_center[1]),(255,255,255))
+        image.putpixel((-x+circle_center[0],y+circle_center[1]),(255,255,255))
+        image.putpixel((y+circle_center[1],x+circle_center[0]),(255,255,255))
+        image.putpixel((y+circle_center[1],-x+circle_center[0]),(255,255,255))
+
+        
+        while ( x>y):
+            distance_o = (x-1)*(x-1) + (y)*(y)
+            distance_n = (x)*(x) + (y+1)*(y+1)
+            if between_borders(distance_o,w1,w2) and not between_borders(distance_n,w1,w2):
+                x-=1
+            elif between_borders(distance_n,w1,w2) and not between_borders(distance_o,w1,w2):
+                y+=1       
+            else:
+                x-=1
+                y+=1
+
+            image.putpixel((x+circle_center[0],y+circle_center[1]),(255,255,255))
+
+            image.putpixel((-x+circle_center[0],y+circle_center[1]),(255,255,255))
+
+            image.putpixel((-x+circle_center[0],-y+circle_center[1]),(255,255,255))
+
+            image.putpixel((x+circle_center[0],-y+circle_center[1]),(255,255,255))
+
+            image.putpixel((y+circle_center[1],x+circle_center[0]),(255,255,255))
+
+            image.putpixel((-y+circle_center[1],x+circle_center[0]),(255,255,255))
+
+            image.putpixel((-y+circle_center[1],-x+circle_center[0]),(255,255,255))
+
+            image.putpixel((y+circle_center[1],-x+circle_center[0]),(255,255,255))
+            
     return
           
          
-
-
 
 
 def main():
@@ -62,7 +75,11 @@ def main():
     #rayon du cercle
     circle_radius = int(input("rayon : "))
 
-    draw_circle(image,circle_center,circle_radius,10)
+    print("Rayon du cercle ?")
+    #rayon du cercle
+    width = int(input("Epaisseur : "))
+
+    draw_circle(image,circle_center,circle_radius,width)
 
     #affichage de l'image avec les pixels changés
     image.show()
