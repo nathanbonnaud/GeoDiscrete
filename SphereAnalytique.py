@@ -7,12 +7,9 @@ import sys
 import math
 
 
-
 def draw_sphere( circle_center,circle_radius,voxels):
+    voxels = np.array(draw_circleY(circle_center,circle_radius,voxels))
 
-    
-    voxels = np.array(draw_circle(circle_center,circle_radius,voxels))
-    
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     ax.voxels(voxels, facecolors='red')
@@ -20,18 +17,39 @@ def draw_sphere( circle_center,circle_radius,voxels):
     plt.show()
     return
 
-def draw_circle( circle_center,circle_radius,voxels):
-    for z in range (-circle_radius+1,circle_radius):
-        x= 0 + circle_radius - abs(z)
-        y= 0
-        w1 = (circle_radius - abs(z)) *(circle_radius - abs(z)) - z*z
-        w2 = (circle_radius- abs(z)+1) *(circle_radius - abs(z)+1)- z*z
+def draw_circleY(circle_center,circle_radius,voxels):
+    x= 0 + circle_radius
+    z= 0
+    w1 = circle_radius*circle_radius
+    w2 = (circle_radius+1) *(circle_radius +1)
+    voxels = draw_circleX(circle_center,x,voxels,z)
+    voxels = draw_circleX(circle_center,x,voxels,-z)
+    while ( x>z):
+        distance_o = (x-1)*(x-1) + (z)*(z)
+        distance_n = (x)*(x) + (z+1)*(z+1)
+        if Circle.between_borders(distance_o,w1,w2) and not Circle.between_borders(distance_n,w1,w2):
+            x-=1
+        elif Circle.between_borders(distance_n,w1,w2) and not Circle.between_borders(distance_o,w1,w2):
+            z+=1
+        else:
+            x-=1
+            z+=1
+        voxels = draw_circleX(circle_center,x,voxels,z)
+        voxels = draw_circleX(circle_center,z,voxels,x)
+        voxels = draw_circleX(circle_center,x,voxels,-z)
+        voxels = draw_circleX(circle_center,z,voxels,-x)
 
+    return voxels
+
+def draw_circleX( circle_center,circle_radius,voxels,z):
+        x= 0 + circle_radius
+        y= 0
+        w1 = circle_radius*circle_radius
+        w2 = (circle_radius+1) *(circle_radius +1)
         voxels[x+circle_center[0]][y+circle_center[1]][z+circle_center[2]] = True
         voxels[-x+circle_center[0]][y+circle_center[1]][z+circle_center[2]] = True
         voxels[y+circle_center[1]][x+circle_center[0]][z+circle_center[2]] = True
         voxels[y+circle_center[1]][-x+circle_center[0]][z+circle_center[2]] = True
-
         while ( x>y):
             distance_o = (x-1)*(x-1) + (y)*(y)
             distance_n = (x)*(x) + (y+1)*(y+1)
@@ -42,7 +60,6 @@ def draw_circle( circle_center,circle_radius,voxels):
             else:
                 x-=1
                 y+=1
-
             voxels[x+circle_center[0]][y+circle_center[1]][z+circle_center[2]] = True
             voxels[-x+circle_center[0]][y+circle_center[1]][z+circle_center[2]] = True
             voxels[-x+circle_center[0]][-y+circle_center[1]][z+circle_center[2]] = True
@@ -51,8 +68,7 @@ def draw_circle( circle_center,circle_radius,voxels):
             voxels[-y+circle_center[1]][x+circle_center[0]][z+circle_center[2]] = True
             voxels[-y+circle_center[1]][-x+circle_center[0]][z+circle_center[2]] = True
             voxels[y+circle_center[1]][-x+circle_center[0]][z+circle_center[2]] = True
-
-    return voxels
+        return voxels
 
 
 def main():
