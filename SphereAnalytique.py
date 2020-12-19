@@ -6,9 +6,12 @@ import numpy as np
 import sys
 import math
 
+img_width = 100
+img_height = 100
+img_deep = 100
 
-def draw_sphere( circle_center,circle_radius,voxels):
-    voxels = np.array(draw_circleY(circle_center,circle_radius,voxels))
+def draw( circle_center,circle_radius,voxels,width):
+    voxels = np.array(draw_sphere(circle_center,circle_radius,voxels,img_width))
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
@@ -17,67 +20,28 @@ def draw_sphere( circle_center,circle_radius,voxels):
     plt.show()
     return
 
-def draw_circleY(circle_center,circle_radius,voxels):
-    x= 0 + circle_radius
-    z= 0
-    w1 = circle_radius*circle_radius
-    w2 = (circle_radius+1) *(circle_radius +1)
-    voxels = draw_circleX(circle_center,x,voxels,z)
-    voxels = draw_circleX(circle_center,x,voxels,-z)
-    while ( x>z):
-        distance_o = (x-1)*(x-1) + (z)*(z)
-        distance_n = (x)*(x) + (z+1)*(z+1)
-        if Circle.between_borders(distance_o,w1,w2) and not Circle.between_borders(distance_n,w1,w2):
-            x-=1
-        elif Circle.between_borders(distance_n,w1,w2) and not Circle.between_borders(distance_o,w1,w2):
-            z+=1
-        else:
-            x-=1
-            z+=1
-        voxels = draw_circleX(circle_center,x,voxels,z)
-        voxels = draw_circleX(circle_center,z,voxels,x)
-        voxels = draw_circleX(circle_center,x,voxels,-z)
-        voxels = draw_circleX(circle_center,z,voxels,-x)
+def draw_sphere(circle_center,circle_radius,voxels,width):
 
+    w1 = (circle_radius)*(circle_radius)
+    w2 = (circle_radius + 1)*(circle_radius+1)
+
+    for z in range (img_deep):
+        for y in range (img_height):
+            for x in range (img_width):
+                pos_x = x - circle_center[0]
+                pos_y = y - circle_center[1]
+                pos_z = z - circle_center[2]
+                dist =pos_x*pos_x + pos_y*pos_y + pos_z*pos_z
+
+                if w1 <= dist < w2 :
+                    voxels[x][y][z] = True
     return voxels
-
-def draw_circleX( circle_center,circle_radius,voxels,z):
-        x= 0 + circle_radius
-        y= 0
-        w1 = circle_radius*circle_radius
-        w2 = (circle_radius+1) *(circle_radius +1)
-        voxels[x+circle_center[0]][y+circle_center[1]][z+circle_center[2]] = True
-        voxels[-x+circle_center[0]][y+circle_center[1]][z+circle_center[2]] = True
-        voxels[y+circle_center[1]][x+circle_center[0]][z+circle_center[2]] = True
-        voxels[y+circle_center[1]][-x+circle_center[0]][z+circle_center[2]] = True
-        while ( x>y):
-            distance_o = (x-1)*(x-1) + (y)*(y)
-            distance_n = (x)*(x) + (y+1)*(y+1)
-            if Circle.between_borders(distance_o,w1,w2) and not Circle.between_borders(distance_n,w1,w2):
-                x-=1
-            elif Circle.between_borders(distance_n,w1,w2) and not Circle.between_borders(distance_o,w1,w2):
-                y+=1
-            else:
-                x-=1
-                y+=1
-            voxels[x+circle_center[0]][y+circle_center[1]][z+circle_center[2]] = True
-            voxels[-x+circle_center[0]][y+circle_center[1]][z+circle_center[2]] = True
-            voxels[-x+circle_center[0]][-y+circle_center[1]][z+circle_center[2]] = True
-            voxels[x+circle_center[0]][-y+circle_center[1]][z+circle_center[2]] = True
-            voxels[y+circle_center[1]][x+circle_center[0]][z+circle_center[2]] = True
-            voxels[-y+circle_center[1]][x+circle_center[0]][z+circle_center[2]] = True
-            voxels[-y+circle_center[1]][-x+circle_center[0]][z+circle_center[2]] = True
-            voxels[y+circle_center[1]][-x+circle_center[0]][z+circle_center[2]] = True
-        return voxels
-
 
 def main():
 
     print("Création du cube de côté 100...")
     # création d'une fenêtre de taille 100x100x100
-    img_width = 100
-    img_height = 100
-    img_deep = 100
+
 
     voxels = [[[False for _ in range(100)] for _ in range(100)] for _ in range(100)]
 
@@ -93,7 +57,7 @@ def main():
     #rayon du cercle
     circle_radius = int(input("rayon : "))
 
-    draw_sphere(circle_center,circle_radius,voxels)
+    draw(circle_center,circle_radius,voxels,img_width)
 
 
 
