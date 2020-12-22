@@ -9,8 +9,11 @@ img_width = 50
 img_height = 50
 img_depth = 50
 
+#Utilise la structure  matplotlib et numpy pour afficher les voxels dans un repère 3D
 def draw_sphere(circle_center,circle_radius,voxels):
     voxels = np.array(draw_voxels(circle_center,circle_radius,voxels))
+    #Si un problème intervient avec la librairie, mettez en commentaires les lignes suivantes, ça enlèvera l'affichage
+    #graphique mais affichera quand même les voxels de la sphère avec un print
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     ax.set_box_aspect(aspect=[1,1,1])   
@@ -18,6 +21,7 @@ def draw_sphere(circle_center,circle_radius,voxels):
     plt.show()
     return
 
+#Calcule les voxels de la sphère analytique avec une méthode Brute-Force
 def draw_voxels(circle_center,circle_radius,voxels):
     w1 = (circle_radius)*(circle_radius)
     w2 = (circle_radius + 1)*(circle_radius+1)
@@ -28,16 +32,14 @@ def draw_voxels(circle_center,circle_radius,voxels):
             pos_y = y - circle_center[1]
             for x in range (img_width):
                 pos_x = x - circle_center[0]
-
                 dist =pos_x*pos_x + pos_y*pos_y + pos_z*pos_z
                 if w1 <= dist < w2 :
                     voxels[x][y][z] = True
+                    print("sphere voxel -- x : " + str(x) + " y : " + str(y) + " z :" + str(z))
     return voxels
 
 def main():
     print("Création du cube de côté 50...")
-    
-    # création d'une fenêtre de taille 100x100x100
     voxels = [[[False for _ in range(img_width)] for _ in range(img_height)] for _ in range(img_depth)]
 
     print("Centre de la sphere ?")
@@ -50,7 +52,7 @@ def main():
 
     print("Rayon de la sphere ?")
     #rayon du cercle
-    circle_radius = int(input("rayon : ")
+    circle_radius = int(input("rayon : "))
 
     draw_sphere(circle_center,circle_radius,voxels)
 

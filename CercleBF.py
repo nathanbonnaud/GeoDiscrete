@@ -1,7 +1,7 @@
 from PIL import Image
 import sys
 
-#fonction qui dessine le cercle
+#fonction qui dessine le cercle avec la méthode Brute-Force
 def draw_circle(image,circle_center,circle_radius,width):
     width/=2
     w1 = (circle_radius)*(circle_radius)
