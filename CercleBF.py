@@ -15,6 +15,7 @@ def draw_circle(image,circle_center,circle_radius,width):
 
             if w1 <= dist < w2 :
                 image.putpixel((x,y),(255,255,255))
+                print("pixel : x : " + str(x) + " y :" + str(y) )
     return
 
 

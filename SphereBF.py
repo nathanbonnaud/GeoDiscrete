@@ -12,10 +12,10 @@ img_depth = 50
 #Utilise la structure  matplotlib et numpy pour afficher les voxels dans un repère 3D
 def draw_sphere(circle_center,circle_radius,voxels):
     voxels = np.array(draw_voxels(circle_center,circle_radius,voxels))
-    #Si un problème intervient avec la librairie, mettez en commentaires les lignes suivantes, ça enlèvera l'affichage
-    #graphique mais affichera quand même les voxels de la sphère avec un print
     fig = plt.figure()
     ax = fig.gca(projection='3d')
+    #La ligne suivante permet d'avoir un repère orthonormé, elle ne fonctionne pas sur certains PC (on ne sait pas pourquoi)
+    #Commentez là si vous n'arrivez pas à lancer le programme
     ax.set_box_aspect(aspect=[1,1,1])   
     ax.voxels(voxels, facecolors='red')
     plt.show()

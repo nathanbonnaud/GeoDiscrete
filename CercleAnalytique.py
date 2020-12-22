@@ -23,6 +23,9 @@ def draw_circle(image, circle_center,circle_radius,width):
         image.putpixel((-x+circle_center[0],y+circle_center[1]),(255,255,255))
         image.putpixel((y+circle_center[1],x+circle_center[0]),(255,255,255))
         image.putpixel((y+circle_center[1],-x+circle_center[0]),(255,255,255))
+        print("Affichage des pixels du huitième octant du cercle")
+        print("pixel : x : " + str(x) + " y :" + str(y) )
+
         while ( x>y):
             distance_o = (x-1)*(x-1) + (y)*(y)
             distance_n = (x)*(x) + (y+1)*(y+1)
@@ -42,6 +45,8 @@ def draw_circle(image, circle_center,circle_radius,width):
             image.putpixel((-y+circle_center[1],x+circle_center[0]),(255,255,255))
             image.putpixel((-y+circle_center[1],-x+circle_center[0]),(255,255,255))
             image.putpixel((y+circle_center[1],-x+circle_center[0]),(255,255,255))
+            print("pixel : x : " + str(x) + " y :" + str(y) )
+
 
     return
 
